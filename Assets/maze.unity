@@ -381,6 +381,8 @@ MonoBehaviour:
   teleportCD: 2
   scoreText: {fileID: 1423682983}
   HealthText: {fileID: 727870116}
+  WinScreen: {fileID: 953816575}
+  scoreImage: {fileID: 983458394}
 --- !u!1 &50648946
 GameObject:
   m_ObjectHideFlags: 0

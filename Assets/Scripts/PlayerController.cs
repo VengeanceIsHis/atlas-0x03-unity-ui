@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public float teleportCD = 2f;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI HealthText;
+    public TextMeshProUGUI WinScreen;
+    public Image scoreImage;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         // rb.isKinematic = true;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        scoreImage.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -63,7 +67,12 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Goal"))
         {
-            Debug.Log("You win!");
+            
+            WinScreen.color = Color.black;
+            scoreImage.color = Color.green;
+            // Debug.Log("You win!");
+            WinScreen.text = "You Win!";
+            scoreImage.gameObject.SetActive(true);
         }
 
         if (other.CompareTag("Teleporter") && !isInTeleporter)
@@ -91,14 +100,23 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
         if (health == 0)
         {
-            Debug.Log("Game Over!");
-
-            Scene currentScene = SceneManager.GetActiveScene();
-
-            SceneManager.LoadScene(currentScene.name);
+            WinScreen.color = Color.white;
+            scoreImage.color = Color.red;
+            WinScreen.text = "You Lose";
+            scoreImage.gameObject.SetActive(true);
+            // Debug.Log("Game Over!");
+            StartCoroutine(LoadScene(3));
         }
+    }
+
+    private IEnumerator LoadScene(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 
     void SetScoreText()
@@ -110,4 +128,5 @@ public class PlayerController : MonoBehaviour
     {
         HealthText.text = "Health: " + health;
     }
+
 }
