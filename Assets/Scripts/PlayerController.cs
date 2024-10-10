@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour
             // Debug.Log("You win!");
             WinScreen.text = "You Win!";
             scoreImage.gameObject.SetActive(true);
+            StartCoroutine(LoadScene(3));
+
         }
 
         if (other.CompareTag("Teleporter") && !isInTeleporter)
