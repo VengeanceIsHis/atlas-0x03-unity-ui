@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public int health = 5;
     public float teleportCD = 2f;
+    public TextMeshProUGUI scoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -33,9 +35,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3(direction_x, 0.0f, direction_z).normalized;
 
-        // Rigid Body are for collisions
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
-        // rb.AddForce(new Vector3(direction_x * speed, 0.0f, direction_z * speed), ForceMode.Force);
+       
     }
 
     void OnCollisionEnter(Collision other)
@@ -45,11 +46,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // If Player collides with Tag "Pickup"
         if (other.CompareTag("Pickup"))
         {
             score += 1;
-            Debug.Log("Score: " + score);
+            // Debug.Log("Score: " + score);
+            SetScoreText();
             Destroy(other.gameObject);
         }
 
@@ -79,16 +80,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    private void OnTriggerExit(Collider other)
-    {
-
-    }
     private IEnumerator TeleporterCooldown()
     {
         Debug.Log("I am here!");
-        yield return new WaitForSeconds(teleportCD); // Wait for the cooldown duration
-        isInTeleporter = false; // Reset the flag after the cooldown
+        yield return new WaitForSeconds(teleportCD);
+        isInTeleporter = false;
     }
 
 
@@ -102,5 +98,10 @@ public class PlayerController : MonoBehaviour
 
             SceneManager.LoadScene(currentScene.name);
         }
+    }
+
+    void SetScoreText()
+    {
+        scoreText.text = "Score: " + score;
     }
 }
