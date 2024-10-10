@@ -40,8 +40,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3(direction_x, 0.0f, direction_z).normalized;
 
-        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
-       
+        rb.AddForce(movement * speed * 5);
+
     }
 
     void OnCollisionEnter(Collision other)
