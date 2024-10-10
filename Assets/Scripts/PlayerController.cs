@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public int health = 5;
     public float teleportCD = 2f;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI HealthText;
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Trap"))
         {
             health--;
-            Debug.Log("Health: " + health);
+            SetHealthText();
         }
 
         if (other.CompareTag("Goal"))
@@ -103,5 +104,10 @@ public class PlayerController : MonoBehaviour
     void SetScoreText()
     {
         scoreText.text = "Score: " + score;
+    }
+
+    void SetHealthText()
+    {
+        HealthText.text = "Health: " + health;
     }
 }
